@@ -24,6 +24,10 @@ material = "1.13.0"
 splashScreen = "1.2.0"
 activityCompose = "1.13.0"
 composeIcons = "1.6.0"
+navigationRuntimeKtx = "2.9.7"
+navigationCompose = "2.9.7"
+lifecycleViewmodelKtx = "2.10.0"
+hiltNavigationCompose = "1.2.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -62,6 +66,10 @@ material = { group = "com.google.android.material", name = "material", version.r
 androidx-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "splashScreen" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version = "activityCompose" }
 androidx-compose-ui-text = { group = "androidx.compose.ui", name = "ui-text", version = "composeBom" }
+androidx-navigation-runtime-ktx = { group = "androidx.navigation", name = "navigation-runtime-ktx", version.ref = "navigationRuntimeKtx" }
+androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
+androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
+androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -80,5 +88,7 @@ compose = [
     "androidx-compose-material3",
     "androidx-compose-foundation",
     "androidx-compose-material-icons-extended",
-    "androidx-compose-ui-text"
+    "androidx-compose-ui-text",
+    "androidx-navigation-compose",
+    "androidx-hilt-navigation-compose"
 ]

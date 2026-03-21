@@ -1,0 +1,3 @@
+package com.sraccelerator.easyorder.presentation.navigation
+
+interface NavigationRoute

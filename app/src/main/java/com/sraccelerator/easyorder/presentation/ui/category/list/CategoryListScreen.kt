@@ -1,9 +1,8 @@
-package com.sraccelerator.easyorder.presentation.ui.category
+package com.sraccelerator.easyorder.presentation.ui.category.list
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -16,12 +15,11 @@ import com.sraccelerator.easyorder.presentation.component.EasyOrderHeader
 import com.sraccelerator.easyorder.presentation.component.EasyOrderLoading
 import com.sraccelerator.easyorder.presentation.component.EasyOrderScaffold
 import com.sraccelerator.easyorder.presentation.component.EasyOrderTopBar
-import com.sraccelerator.easyorder.presentation.theme.*
 
 @Composable
-fun EasyOrderCategoriesScreen(
-    state: CategoryUiState,
-    onEvent: (CategoryUiEvent) -> Unit
+fun CategoryListScreen(
+    state: CategoryListUiState,
+    onEvent: (CategoryListUiEvent) -> Unit
 ) {
     EasyOrderScaffold(
         topBar = {
@@ -42,21 +40,21 @@ fun EasyOrderCategoriesScreen(
 }
 
 @Composable
-fun CategoryScreenContent(state: CategoryUiState, onEvent: (CategoryUiEvent) -> Unit) {
+fun CategoryScreenContent(state: CategoryListUiState, onEvent: (CategoryListUiEvent) -> Unit) {
     when (state) {
-        is CategoryUiState.Loading -> {
+        is CategoryListUiState.Loading -> {
             EasyOrderLoading()
         }
 
-        is CategoryUiState.Success -> {
+        is CategoryListUiState.Success -> {
             CategorySuccessContent(state.categories) {
 
             }
         }
 
-        is CategoryUiState.Error -> {
+        is CategoryListUiState.Error -> {
             EasyOrderError(message = state.message) {
-                onEvent(CategoryUiEvent.OnRetryClick)
+                onEvent(CategoryListUiEvent.OnRetryClick)
             }
         }
     }
@@ -65,7 +63,7 @@ fun CategoryScreenContent(state: CategoryUiState, onEvent: (CategoryUiEvent) -> 
 @Composable
 private fun CategorySuccessContent(
     categories: List<Category>,
-    onEvent: (CategoryUiEvent) -> Unit
+    onEvent: (CategoryListUiEvent) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -85,7 +83,7 @@ private fun CategorySuccessContent(
         ) { category ->
             EasyOrderCategoryCard(
                 category = category,
-                onClick = { onEvent(CategoryUiEvent.OnCategoryClick(category.id)) }
+                onClick = { onEvent(CategoryListUiEvent.OnCategoryListClick(category.id)) }
             )
         }
 
@@ -113,8 +111,8 @@ fun EasyOrderCategoriesScreenPreview() {
         )
     )
 
-    EasyOrderCategoriesScreen(
-        state = CategoryUiState.Success(categories),
+    CategoryListScreen(
+        state = CategoryListUiState.Success(categories),
         onEvent = {}
     )
 }
@@ -122,8 +120,8 @@ fun EasyOrderCategoriesScreenPreview() {
 @Preview(showBackground = true, name = "Loading State")
 @Composable
 fun EasyOrderCategoriesLoadingPreview() {
-    EasyOrderCategoriesScreen(
-        state = CategoryUiState.Loading,
+    CategoryListScreen(
+        state = CategoryListUiState.Loading,
         onEvent = {}
     )
 }
@@ -131,8 +129,8 @@ fun EasyOrderCategoriesLoadingPreview() {
 @Preview(showBackground = true, name = "Error State")
 @Composable
 fun EasyOrderCategoriesErrorPreview() {
-    EasyOrderCategoriesScreen(
-        state = CategoryUiState.Error(
+    CategoryListScreen(
+        state = CategoryListUiState.Error(
             message = "Connection failed. Please check your internet."
         ),
         onEvent = {}
