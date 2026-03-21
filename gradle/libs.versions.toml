@@ -23,6 +23,7 @@ nav3Core = "1.0.1"
 material = "1.13.0"
 splashScreen = "1.2.0"
 activityCompose = "1.13.0"
+composeIcons = "1.6.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -60,7 +61,7 @@ androidx-navigation3-ui = { module = "androidx.navigation3:navigation3-ui", vers
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "splashScreen" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version = "activityCompose" }
-
+androidx-compose-ui-text = { group = "androidx.compose.ui", name = "ui-text", version = "composeBom" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -78,5 +79,6 @@ compose = [
     "androidx-compose-ui-tooling-preview",
     "androidx-compose-material3",
     "androidx-compose-foundation",
-    "androidx-compose-material-icons-extended"
+    "androidx-compose-material-icons-extended",
+    "androidx-compose-ui-text"
 ]

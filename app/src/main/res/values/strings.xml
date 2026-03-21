@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Easy Order</string>
+    <string name="easy_order_default_title">Easy Order</string>
+    <string name="categories_title">Categories</string>
+    <string name="select_your_order">Select your order</string>
+    <string name="error_retry_button">Retry</string>
+    <string name="category_explore_options">Explore options</string>
+    <string name="cd_category_image">Category image</string>
+    <string name="cd_navigate_to_category">Navigate to category</string>
 </resources>
