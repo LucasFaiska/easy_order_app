@@ -1,4 +1,4 @@
-package com.sraccelerator.easyorder.ui.theme
+package com.sraccelerator.easyorder.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 
@@ -20,7 +20,6 @@ val SurfaceVariant = Color(0xFFF5DED5)
 val OnSurfaceVariant = Color(0xFF53433C)
 val Outline = Color(0xFF85736B)
 
-val Error = Color(0xFFBA1A1A)
-val OnError = Color(0xFFFFFFFF)
+val OnError = Color(0xFFBA1A1A)
 val Success = Color(0xFF2E7D32)
 val OnSuccess = Color(0xFFFFFFFF)
