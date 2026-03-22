@@ -7,8 +7,6 @@ import com.sraccelerator.easyorder.data.remote.RemoteDataSource
 import com.sraccelerator.easyorder.data.remote.mapper.toModel
 import com.sraccelerator.easyorder.data.remote.network.EasyOrderApiResponse
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
@@ -22,8 +20,6 @@ interface EasyOrderRepository {
 internal class EasyOrderRepositoryImpl @Inject constructor(
     private val remoteDataSource: RemoteDataSource, @param:IoDispatcher private val dispatcher: CoroutineDispatcher
 ) : EasyOrderRepository {
-
-    private val repositoryScope = CoroutineScope(dispatcher + SupervisorJob())
 
     override fun getCategories(restaurantId: Int): Flow<DataState<List<Category>>> = flow {
         emit(DataState.Loading)

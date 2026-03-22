@@ -17,4 +17,5 @@
     <string name="product_error_retry">Retry</string>
     <string name="product_empty_list">No products found for this category.</string>
     <string name="easy_order_back_button">Navigate Back</string>
+    <string name="cart_icon_content_description">Cart</string>
 </resources>

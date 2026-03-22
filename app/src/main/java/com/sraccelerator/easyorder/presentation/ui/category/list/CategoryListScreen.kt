@@ -28,9 +28,17 @@ fun CategoryListScreen(
     state: CategoryListUiState,
     onEvent: (CategoryListUiEvent) -> Unit
 ) {
+    val cartCount = if (state is CategoryListUiState.Success) state.cartItemsCount else 0
+
     EasyOrderScaffold(
         topBar = {
-            EasyOrderTopBar(titleRes = R.string.easy_order_default_title)
+            EasyOrderTopBar(
+                titleRes = R.string.easy_order_default_title,
+                cartItemsCount = cartCount,
+                onCartClick = {
+
+                }
+            )
         }
     ) { padding ->
         Column(
@@ -78,7 +86,7 @@ private fun CategorySuccessContent(
         item {
             EasyOrderHeader(
                 title = stringResource(R.string.categories_title),
-                modifier = Modifier.padding(vertical = 16.dp)
+                modifier = Modifier.padding(vertical = 16.dp),
             )
         }
 

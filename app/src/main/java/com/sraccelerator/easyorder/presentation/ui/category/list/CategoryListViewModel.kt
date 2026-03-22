@@ -4,18 +4,21 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sraccelerator.easyorder.data.DataState
 import com.sraccelerator.easyorder.data.model.Category
+import com.sraccelerator.easyorder.domain.usecase.GetCartItemsCountUseCase
 import com.sraccelerator.easyorder.domain.usecase.GetCategoriesUseCase
 import com.sraccelerator.easyorder.presentation.navigation.AppRoutes
 import com.sraccelerator.easyorder.presentation.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 internal class CategoryListViewModel @Inject constructor(
     private val getCategoriesUseCase: GetCategoriesUseCase,
+    private val getCartItemsCountUseCase: GetCartItemsCountUseCase,
     private val navigator: Navigator
 ) : ViewModel() {
 
@@ -23,18 +26,37 @@ internal class CategoryListViewModel @Inject constructor(
     val state = _uiState.asStateFlow()
 
     init {
-        loadCategories()
+        observeScreenData()
     }
 
-    private fun loadCategories() {
+    private fun observeScreenData() {
         viewModelScope.launch {
-            getCategoriesUseCase(1).collect { categoriesState ->
-                when (categoriesState) {
-                    is DataState.Error -> _uiState.value = CategoryListUiState.Error(categoriesState.throwable.message.orEmpty())
-                    DataState.Loading -> _uiState.value = CategoryListUiState.Loading
-                    is DataState.Success<*> -> _uiState.value = CategoryListUiState.Success(categoriesState.data as List<Category>)
-                }
+            combine(
+                getCategoriesUseCase(1),
+                getCartItemsCountUseCase()
+            ) { categoriesState, cartCount ->
+                mapToUiState(categoriesState, cartCount)
+            }.collect { newState ->
+                _uiState.value = newState
             }
+        }
+    }
+
+    private fun mapToUiState(
+        categoriesState: DataState<List<Category>>,
+        cartCount: Int
+    ): CategoryListUiState {
+        return when (categoriesState) {
+            is DataState.Loading -> CategoryListUiState.Loading
+
+            is DataState.Error -> CategoryListUiState.Error(
+                categoriesState.throwable.message.orEmpty()
+            )
+
+            is DataState.Success -> CategoryListUiState.Success(
+                categories = categoriesState.data,
+                cartItemsCount = cartCount
+            )
         }
     }
 
@@ -45,7 +67,8 @@ internal class CategoryListViewModel @Inject constructor(
                     navigator.navigateTo(AppRoutes.ProductList(event.categoryId, event.categoryName))
                 }
             }
-            CategoryListUiEvent.OnRetryClick -> loadCategories()
+
+            CategoryListUiEvent.OnRetryClick -> observeScreenData()
         }
     }
 }

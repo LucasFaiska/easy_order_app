@@ -25,6 +25,10 @@ fun ProductListScreen(
                 titleRes = R.string.product_list_title,
                 navigationIcon = {
                     EasyOrderBackButton(onClick = { onEvent(ProductListUiEvent.OnBackClick) })
+                },
+                cartItemsCount = 0,
+                onCartClick = {
+
                 }
             )
         }
