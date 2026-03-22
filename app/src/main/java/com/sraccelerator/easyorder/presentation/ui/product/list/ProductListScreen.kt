@@ -40,7 +40,7 @@ fun ProductListScreen(
                 },
                 cartItemsCount = cartCount,
                 onCartClick = {
-
+                    onEvent(ProductListUiEvent.OnCartClick)
                 }
             )
         }

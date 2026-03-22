@@ -17,5 +17,19 @@
     <string name="product_error_retry">Retry</string>
     <string name="product_empty_list">No products found for this category.</string>
     <string name="easy_order_back_button">Navigate Back</string>
-    <string name="cart_icon_content_description">Cart</string>
+    <string name="cart_title">My Cart</string>
+    <string name="checkout_title">Checkout</string>
+
+    <string name="cart_empty_message">Your cart is empty</string>
+    <string name="cart_error_loading">Error loading your cart</string>
+
+    <string name="cart_btn_checkout">FINISH ORDER</string>
+    <string name="cart_btn_clear">Clear Cart</string>
+    <string name="cart_total_label">Total:</string>
+
+    <string name="cart_icon_content_description">Shopping cart icon</string>
+    <string name="cart_increase_quantity">Increase quantity</string>
+    <string name="cart_decrease_quantity">Decrease quantity</string>
+    <string name="cart_remove_item">Remove item from cart</string>
+
 </resources>

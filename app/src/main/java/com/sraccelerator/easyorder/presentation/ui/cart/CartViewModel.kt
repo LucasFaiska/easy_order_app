@@ -1,0 +1,53 @@
+package com.sraccelerator.easyorder.presentation.ui.cart
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.sraccelerator.easyorder.domain.usecase.AddProductToCartUseCase
+import com.sraccelerator.easyorder.domain.usecase.GetCartUseCase
+import com.sraccelerator.easyorder.domain.usecase.RemoveProductFromCartUseCase
+import com.sraccelerator.easyorder.presentation.navigation.Navigator
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+@HiltViewModel
+internal class CartViewModel @Inject constructor(
+    private val getCartUseCase: GetCartUseCase,
+    private val addProductToCartUseCase: AddProductToCartUseCase,
+    private val removeProductFromCartUseCase: RemoveProductFromCartUseCase,
+    private val navigator: Navigator
+) : ViewModel() {
+
+    private val _uiState = MutableStateFlow<CartUiState>(CartUiState.Loading)
+    val state = _uiState.asStateFlow()
+
+    init {
+        observeCart()
+    }
+
+    private fun observeCart() {
+        viewModelScope.launch {
+            getCartUseCase().collect { items ->
+                _uiState.value = if (items.isEmpty()) {
+                    CartUiState.Empty
+                } else {
+                    CartUiState.Success(
+                        items = items,
+                        totalPrice = items.sumOf { it.product.price * it.quantity }
+                    )
+                }
+            }
+        }
+    }
+
+    fun onEvent(event: CartUiEvent) {
+        when (event) {
+            is CartUiEvent.OnIncreaseQuantity -> addProductToCartUseCase(event.product)
+            is CartUiEvent.OnDecreaseQuantity -> removeProductFromCartUseCase(event.productId)
+            CartUiEvent.OnBackClick -> viewModelScope.launch { navigator.navigateBack() }
+            CartUiEvent.OnCheckoutClick -> {}
+        }
+    }
+}

@@ -36,7 +36,7 @@ fun CategoryListScreen(
                 titleRes = R.string.easy_order_default_title,
                 cartItemsCount = cartCount,
                 onCartClick = {
-
+                    onEvent(CategoryListUiEvent.OnCartClick)
                 }
             )
         }

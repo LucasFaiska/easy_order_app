@@ -6,7 +6,8 @@ import com.sraccelerator.easyorder.data.DataState
 import com.sraccelerator.easyorder.data.model.Category
 import com.sraccelerator.easyorder.domain.usecase.GetCartItemsCountUseCase
 import com.sraccelerator.easyorder.domain.usecase.GetCategoriesUseCase
-import com.sraccelerator.easyorder.presentation.navigation.AppRoutes
+import com.sraccelerator.easyorder.presentation.navigation.AppRoutes.Cart
+import com.sraccelerator.easyorder.presentation.navigation.AppRoutes.ProductList
 import com.sraccelerator.easyorder.presentation.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -64,11 +65,15 @@ internal class CategoryListViewModel @Inject constructor(
         when (event) {
             is CategoryListUiEvent.OnCategoryListClick -> {
                 viewModelScope.launch {
-                    navigator.navigateTo(AppRoutes.ProductList(event.categoryId, event.categoryName))
+                    navigator.navigateTo(ProductList(event.categoryId, event.categoryName))
                 }
             }
 
             CategoryListUiEvent.OnRetryClick -> observeScreenData()
+
+            CategoryListUiEvent.OnCartClick -> viewModelScope.launch {
+                navigator.navigateTo(Cart)
+            }
         }
     }
 }

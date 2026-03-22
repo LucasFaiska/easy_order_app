@@ -49,6 +49,10 @@ internal class ProductListViewModel @Inject constructor(
                     navigator.navigateBack()
                 }
             }
+
+            ProductListUiEvent.OnCartClick -> viewModelScope.launch {
+                navigator.navigateTo(AppRoutes.Cart)
+            }
         }
     }
 
