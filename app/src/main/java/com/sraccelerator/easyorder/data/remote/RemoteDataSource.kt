@@ -10,7 +10,6 @@ internal interface RemoteDataSource {
     suspend fun getCategories(restaurantId: Int): EasyOrderApiResponse<List<CategoryDTO>>
 
     suspend fun getProductsByCategory(
-        restaurantId: Int,
         categoryId: Int
     ): EasyOrderApiResponse<List<ProductDTO>>
 }
@@ -24,9 +23,8 @@ internal class RemoteDataSourceImpl @Inject constructor(
     }
 
     override suspend fun getProductsByCategory(
-        restaurantId: Int,
         categoryId: Int
     ): EasyOrderApiResponse<List<ProductDTO>> {
-        return apiService.getProductsByCategory(restaurantId, categoryId)
+        return apiService.getProductsByCategory(categoryId)
     }
 }

@@ -7,13 +7,13 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 interface GetProductsByCategoryUseCase {
-    operator fun invoke(restaurantId: Int, categoryId: Int): Flow<DataState<List<Product>>>
+    operator fun invoke(categoryId: Int): Flow<DataState<List<Product>>>
 }
 
 internal class GetProductsByCategoryUseCaseImpl @Inject constructor(
     private val repository: EasyOrderRepository
 ) : GetProductsByCategoryUseCase {
-    override fun invoke(restaurantId: Int, categoryId: Int): Flow<DataState<List<Product>>> {
-        return repository.getProductsByCategory(restaurantId, categoryId)
+    override fun invoke(categoryId: Int): Flow<DataState<List<Product>>> {
+        return repository.getProductsByCategory(categoryId)
     }
 }

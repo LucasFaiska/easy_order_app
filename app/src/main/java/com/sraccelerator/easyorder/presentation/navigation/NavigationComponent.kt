@@ -14,7 +14,7 @@ fun NavigationComponent(
     val launchedEffectNavigationLabel = "navigation"
 
     LaunchedEffect(launchedEffectNavigationLabel) {
-        navigator.navTarget.onEach { navArguments ->
+        navigator.navTarget.collect { navArguments ->
             try {
                 navArguments?.let {
                     processNavigation(navArguments, navController)

@@ -31,10 +31,10 @@ fun EasyOrderCategoryCard(
     modifier: Modifier = Modifier
 ) {
     Card(
+        onClick = onClick,
         modifier = modifier
             .fillMaxWidth()
-            .height(180.dp)
-            .clickable { onClick() },
+            .height(180.dp),
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = SurfaceVariant)
     ) {

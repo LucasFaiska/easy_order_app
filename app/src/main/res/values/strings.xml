@@ -7,4 +7,14 @@
     <string name="category_explore_options">Explore options</string>
     <string name="cd_category_image">Category image</string>
     <string name="cd_navigate_to_category">Navigate to category</string>
+    <string name="product_label_promotion">Promotion</string>
+    <string name="product_label_prep_time">min</string>
+    <string name="product_error_loading">Failed to load products. Please try again.</string>
+    <string name="product_cd_add_button">Add product to cart</string>
+    <string name="product_cd_image">Product image</string>
+    <string name="product_currency_symbol">R$</string>
+    <string name="product_list_title">Products</string>
+    <string name="product_error_retry">Retry</string>
+    <string name="product_empty_list">No products found for this category.</string>
+    <string name="easy_order_back_button">Navigate Back</string>
 </resources>

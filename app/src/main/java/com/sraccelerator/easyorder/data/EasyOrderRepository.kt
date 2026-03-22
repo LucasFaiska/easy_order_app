@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 interface EasyOrderRepository {
     fun getCategories(restaurantId: Int): Flow<DataState<List<Category>>>
-    fun getProductsByCategory(restaurantId: Int, categoryId: Int): Flow<DataState<List<Product>>>
+    fun getProductsByCategory(categoryId: Int): Flow<DataState<List<Product>>>
 }
 
 internal class EasyOrderRepositoryImpl @Inject constructor(
@@ -42,9 +42,9 @@ internal class EasyOrderRepositoryImpl @Inject constructor(
         }
     }.flowOn(dispatcher)
 
-    override fun getProductsByCategory(restaurantId: Int, categoryId: Int): Flow<DataState<List<Product>>> = flow {
+    override fun getProductsByCategory(categoryId: Int): Flow<DataState<List<Product>>> = flow {
         emit(DataState.Loading)
-        when (val response = remoteDataSource.getProductsByCategory(restaurantId, categoryId)) {
+        when (val response = remoteDataSource.getProductsByCategory(categoryId)) {
             is EasyOrderApiResponse.Success -> {
                 emit(DataState.Success(response.body.map { it.toModel() }))
             }

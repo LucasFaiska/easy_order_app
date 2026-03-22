@@ -1,10 +1,17 @@
 package com.sraccelerator.easyorder.presentation.ui.category.list
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sraccelerator.easyorder.R
@@ -47,9 +54,7 @@ fun CategoryScreenContent(state: CategoryListUiState, onEvent: (CategoryListUiEv
         }
 
         is CategoryListUiState.Success -> {
-            CategorySuccessContent(state.categories) {
-
-            }
+            CategorySuccessContent(state.categories, onEvent)
         }
 
         is CategoryListUiState.Error -> {
@@ -72,7 +77,7 @@ private fun CategorySuccessContent(
     ) {
         item {
             EasyOrderHeader(
-                titleRes = R.string.categories_title,
+                title = stringResource(R.string.categories_title),
                 modifier = Modifier.padding(vertical = 16.dp)
             )
         }
@@ -83,7 +88,7 @@ private fun CategorySuccessContent(
         ) { category ->
             EasyOrderCategoryCard(
                 category = category,
-                onClick = { onEvent(CategoryListUiEvent.OnCategoryListClick(category.id)) }
+                onClick = { onEvent(CategoryListUiEvent.OnCategoryListClick(category.id, category.name)) }
             )
         }
 

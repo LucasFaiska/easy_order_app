@@ -13,9 +13,8 @@ interface EasyOrderApiService {
         @Path("restaurantId") restaurantId: Int
     ): EasyOrderApiResponse<List<CategoryDTO>>
 
-    @GET("api/v1/{restaurantId}/{categoryId}/products/index.json")
+    @GET("api/v1/{categoryId}/products/index.json")
     suspend fun getProductsByCategory(
-        @Path("restaurantId") restaurantId: Int,
         @Path("categoryId") categoryId: Int
     ): EasyOrderApiResponse<List<ProductDTO>>
 }

@@ -12,11 +12,11 @@ import com.sraccelerator.easyorder.presentation.theme.OnBackground
 
 @Composable
 fun EasyOrderHeader(
-    @StringRes titleRes: Int,
+    title: String,
     modifier: Modifier = Modifier
 ) {
     Text(
-        text = stringResource(id = titleRes).uppercase(),
+        text = title.uppercase(),
         modifier = modifier,
         style = TextStyle(
             color = OnBackground,
