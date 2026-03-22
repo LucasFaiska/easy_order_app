@@ -9,5 +9,5 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 fun CartRoot() {
     val viewModel: CartViewModel = hiltViewModel()
     val state by viewModel.state.collectAsStateWithLifecycle()
-    CartScreen(state, viewModel::onEvent)
+    CartScreen(state, viewModel.toastEvent, viewModel::onEvent)
 }

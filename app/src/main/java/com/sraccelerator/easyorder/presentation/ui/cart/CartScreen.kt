@@ -1,5 +1,6 @@
 package com.sraccelerator.easyorder.presentation.ui.cart
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,8 +17,10 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -37,11 +40,22 @@ import com.sraccelerator.easyorder.presentation.theme.EasyOrderTheme
 import com.sraccelerator.easyorder.presentation.theme.OnBackground
 import com.sraccelerator.easyorder.presentation.theme.OnPrimary
 import com.sraccelerator.easyorder.presentation.theme.Primary
+import kotlinx.coroutines.flow.SharedFlow
 
 @Composable
 fun CartScreen(
-    state: CartUiState, onEvent: (CartUiEvent) -> Unit
+    state: CartUiState,
+    toastEvent: SharedFlow<Int>? = null,
+    onEvent: (CartUiEvent) -> Unit
 ) {
+    val context = LocalContext.current
+
+    LaunchedEffect(Unit) {
+        toastEvent?.collect { message ->
+            Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+        }
+    }
+
     EasyOrderScaffold(
         topBar = {
             EasyOrderTopBar(
@@ -171,8 +185,11 @@ private fun CartScreenSuccessPreview() {
 
             CartScreen(
                 state = CartUiState.Success(
-                    items = mockItems, totalPrice = 62.0
-                ), onEvent = {})
+                    items = mockItems,
+                    totalPrice = 62.0,
+                ),
+                onEvent = {}
+            )
         }
     }
 }

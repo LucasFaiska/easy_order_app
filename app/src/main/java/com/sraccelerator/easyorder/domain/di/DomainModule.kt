@@ -2,6 +2,8 @@ package com.sraccelerator.easyorder.domain.di
 
 import com.sraccelerator.easyorder.domain.usecase.AddProductToCartUseCase
 import com.sraccelerator.easyorder.domain.usecase.AddProductToCartUseCaseImpl
+import com.sraccelerator.easyorder.domain.usecase.ClearCartUseCase
+import com.sraccelerator.easyorder.domain.usecase.ClearCartUseCaseImpl
 import com.sraccelerator.easyorder.domain.usecase.GetCartItemsCountUseCase
 import com.sraccelerator.easyorder.domain.usecase.GetCartItemsCountUseCaseImpl
 import com.sraccelerator.easyorder.domain.usecase.GetCartUseCase
@@ -15,7 +17,6 @@ import com.sraccelerator.easyorder.domain.usecase.RemoveProductFromCartUseCaseIm
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
-import dagger.hilt.android.scopes.ViewModelScoped
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -54,4 +55,9 @@ internal abstract class DomainModule {
     internal abstract fun bindRemoveProductFromCartUseCase(
         impl: RemoveProductFromCartUseCaseImpl
     ): RemoveProductFromCartUseCase
+
+    @Binds
+    internal abstract fun bindClearCartUseCase(
+        impl: ClearCartUseCaseImpl
+    ): ClearCartUseCase
 }

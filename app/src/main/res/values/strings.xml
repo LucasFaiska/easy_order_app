@@ -32,4 +32,6 @@
     <string name="cart_decrease_quantity">Decrease quantity</string>
     <string name="cart_remove_item">Remove item from cart</string>
 
+    <string name="toast_order_placed">Order placed successfully!</string>
+
 </resources>
