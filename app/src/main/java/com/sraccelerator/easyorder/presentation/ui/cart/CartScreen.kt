@@ -1,6 +1,7 @@
 package com.sraccelerator.easyorder.presentation.ui.cart
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -11,8 +12,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -34,6 +35,8 @@ import com.sraccelerator.easyorder.presentation.component.EasyOrderScaffold
 import com.sraccelerator.easyorder.presentation.component.EasyOrderTopBar
 import com.sraccelerator.easyorder.presentation.theme.EasyOrderTheme
 import com.sraccelerator.easyorder.presentation.theme.OnBackground
+import com.sraccelerator.easyorder.presentation.theme.OnPrimary
+import com.sraccelerator.easyorder.presentation.theme.Primary
 
 @Composable
 fun CartScreen(
@@ -42,12 +45,9 @@ fun CartScreen(
     EasyOrderScaffold(
         topBar = {
             EasyOrderTopBar(
-                titleRes = R.string.cart_title,
-                cartItemsCount = 0,
-                navigationIcon = {
+                titleRes = R.string.cart_title, cartItemsCount = 0, navigationIcon = {
                     EasyOrderBackButton(onClick = { onEvent(CartUiEvent.OnBackClick) })
-                }
-            )
+                })
         }) { padding ->
         Column(
             modifier = Modifier
@@ -56,25 +56,18 @@ fun CartScreen(
         ) {
             when (state) {
                 is CartUiState.Loading -> EasyOrderLoading()
-
                 is CartUiState.Empty -> {
-                    Column(
+                    Box(
                         modifier = Modifier.fillMaxSize(),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
+                        contentAlignment = Alignment.Center
                     ) {
-                        Text(text = stringResource(R.string.cart_empty_message))
+                        Text(text = stringResource(R.string.cart_empty_message), color = OnBackground)
                     }
                 }
 
-                is CartUiState.Success -> {
-                    CartSuccessContent(state, onEvent)
-                }
-
-                is CartUiState.Error -> {
-                    EasyOrderError(message = state.message) {
-                        // onEvent(CartUiEvent.OnRetry)
-                    }
+                is CartUiState.Success -> CartSuccessContent(state, onEvent)
+                is CartUiState.Error -> EasyOrderError(message = state.message) {
+                    onEvent(CartUiEvent.OnRetry)
                 }
             }
         }
@@ -87,14 +80,15 @@ private fun CartSuccessContent(
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
         LazyColumn(
-            modifier = Modifier.weight(1f), contentPadding = PaddingValues(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)
+            modifier = Modifier.weight(1f),
+            contentPadding = PaddingValues(16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             item {
                 EasyOrderHeader(
                     title = stringResource(R.string.cart_title), modifier = Modifier.padding(vertical = 16.dp)
                 )
             }
-
             items(state.items, key = { it.product.id }) { item ->
                 EasyOrderCartItemCard(
                     cartItem = item,
@@ -102,7 +96,6 @@ private fun CartSuccessContent(
                     onDecrease = { onEvent(CartUiEvent.OnDecreaseQuantity(item.product.id)) })
             }
         }
-
         CartBottomSection(state.totalPrice) {
             onEvent(CartUiEvent.OnCheckoutClick)
         }
@@ -111,7 +104,8 @@ private fun CartSuccessContent(
 
 @Composable
 private fun CartBottomSection(
-    totalPrice: Double, onCheckoutClick: () -> Unit
+    totalPrice: Double,
+    onCheckoutClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -119,7 +113,6 @@ private fun CartBottomSection(
             .padding(16.dp)
     ) {
         HorizontalDivider(modifier = Modifier.padding(bottom = 16.dp))
-
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -135,12 +128,15 @@ private fun CartBottomSection(
                 color = OnBackground
             )
         }
-
         Button(
-            onClick = onCheckoutClick, modifier = Modifier
+            onClick = onCheckoutClick,
+            modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 24.dp)
-                .height(56.dp)
+                .height(56.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Primary, contentColor = OnPrimary
+            )
         ) {
             Text(
                 text = stringResource(R.string.cart_btn_checkout), fontWeight = FontWeight.Bold
@@ -153,7 +149,7 @@ private fun CartBottomSection(
 @Composable
 private fun CartScreenSuccessPreview() {
     EasyOrderTheme {
-        Surface {
+        androidx.compose.material3.Surface {
             val mockProduct = Product(
                 id = 101,
                 name = "Classic Neon Cheeseburger",
@@ -185,7 +181,7 @@ private fun CartScreenSuccessPreview() {
 @Composable
 private fun CartScreenEmptyPreview() {
     EasyOrderTheme {
-        Surface {
+        androidx.compose.material3.Surface {
             CartScreen(
                 state = CartUiState.Empty, onEvent = {})
         }
@@ -196,9 +192,20 @@ private fun CartScreenEmptyPreview() {
 @Composable
 private fun CartScreenLoadingPreview() {
     EasyOrderTheme {
-        Surface {
+        androidx.compose.material3.Surface {
             CartScreen(
                 state = CartUiState.Loading, onEvent = {})
+        }
+    }
+}
+
+@Preview(showBackground = true, name = "Error State")
+@Composable
+private fun CartScreenErrorPreview() {
+    EasyOrderTheme {
+        androidx.compose.material3.Surface {
+            CartScreen(
+                state = CartUiState.Error("Connection timeout. Please try again."), onEvent = {})
         }
     }
 }

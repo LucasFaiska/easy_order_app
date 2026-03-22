@@ -7,6 +7,7 @@ import com.sraccelerator.easyorder.domain.usecase.GetCartUseCase
 import com.sraccelerator.easyorder.domain.usecase.RemoveProductFromCartUseCase
 import com.sraccelerator.easyorder.presentation.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -23,12 +24,15 @@ internal class CartViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<CartUiState>(CartUiState.Loading)
     val state = _uiState.asStateFlow()
 
+    private var observeJob: Job? = null
+
     init {
-        observeCart()
+        loadCart()
     }
 
-    private fun observeCart() {
-        viewModelScope.launch {
+    private fun loadCart() {
+        observeJob?.cancel()
+        observeJob = viewModelScope.launch {
             getCartUseCase().collect { items ->
                 _uiState.value = if (items.isEmpty()) {
                     CartUiState.Empty
@@ -48,6 +52,7 @@ internal class CartViewModel @Inject constructor(
             is CartUiEvent.OnDecreaseQuantity -> removeProductFromCartUseCase(event.productId)
             CartUiEvent.OnBackClick -> viewModelScope.launch { navigator.navigateBack() }
             CartUiEvent.OnCheckoutClick -> {}
+            CartUiEvent.OnRetry -> loadCart()
         }
     }
 }

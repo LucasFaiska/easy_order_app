@@ -38,7 +38,7 @@ fun EasyOrderCartItemCard(
         ) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(text = cartItem.product.name, fontWeight = FontWeight.Bold)
-                Text(text = "${stringResource(R.string.product_currency_symbol)} $cartItem.product.price")
+                Text(text = "${stringResource(R.string.product_currency_symbol)} ${cartItem.product.price}")
             }
 
             Row(verticalAlignment = Alignment.CenterVertically) {

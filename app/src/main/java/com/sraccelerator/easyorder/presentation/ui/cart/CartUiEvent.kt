@@ -7,4 +7,5 @@ sealed class CartUiEvent {
     data class OnDecreaseQuantity(val productId: Int) : CartUiEvent()
     object OnCheckoutClick : CartUiEvent()
     object OnBackClick : CartUiEvent()
+    object OnRetry : CartUiEvent()
 }
