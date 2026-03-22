@@ -1,6 +1,10 @@
 package com.sraccelerator.easyorder.presentation.ui.product.list
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -11,7 +15,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sraccelerator.easyorder.R
 import com.sraccelerator.easyorder.data.model.Product
-import com.sraccelerator.easyorder.presentation.component.*
+import com.sraccelerator.easyorder.presentation.component.EasyOrderBackButton
+import com.sraccelerator.easyorder.presentation.component.EasyOrderError
+import com.sraccelerator.easyorder.presentation.component.EasyOrderHeader
+import com.sraccelerator.easyorder.presentation.component.EasyOrderLoading
+import com.sraccelerator.easyorder.presentation.component.EasyOrderProductCard
+import com.sraccelerator.easyorder.presentation.component.EasyOrderScaffold
+import com.sraccelerator.easyorder.presentation.component.EasyOrderTopBar
 import com.sraccelerator.easyorder.presentation.theme.EasyOrderTheme
 
 @Composable
@@ -19,6 +29,8 @@ fun ProductListScreen(
     state: ProductListUiState,
     onEvent: (ProductListUiEvent) -> Unit
 ) {
+    val cartCount = if (state is ProductListUiState.Success) state.cartItemsCount else 0
+
     EasyOrderScaffold(
         topBar = {
             EasyOrderTopBar(
@@ -26,7 +38,7 @@ fun ProductListScreen(
                 navigationIcon = {
                     EasyOrderBackButton(onClick = { onEvent(ProductListUiEvent.OnBackClick) })
                 },
-                cartItemsCount = 0,
+                cartItemsCount = cartCount,
                 onCartClick = {
 
                 }
@@ -53,6 +65,7 @@ private fun ProductScreenContent(
         is ProductListUiState.Error -> EasyOrderError(message = state.message) {
             onEvent(ProductListUiEvent.OnRetryClick)
         }
+
         is ProductListUiState.Success -> ProductSuccessContent(state, onEvent)
     }
 }

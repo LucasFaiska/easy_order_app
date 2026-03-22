@@ -10,6 +10,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 import com.sraccelerator.easyorder.R
 import com.sraccelerator.easyorder.presentation.theme.OnBackground
 import com.sraccelerator.easyorder.presentation.theme.OnPrimary
@@ -29,7 +32,13 @@ fun EasyOrderCartBadge(
                         containerColor = Primary,
                         contentColor = OnPrimary
                     ) {
-                        Text(text = count.toString())
+                        Text(
+                            text = count.toString(),
+                            style = TextStyle(
+                                fontSize = 8.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                        )
                     }
                 }
             }

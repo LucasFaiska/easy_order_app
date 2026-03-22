@@ -6,18 +6,23 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.sraccelerator.easyorder.data.DataState
 import com.sraccelerator.easyorder.data.model.Product
+import com.sraccelerator.easyorder.domain.usecase.AddProductToCartUseCase
+import com.sraccelerator.easyorder.domain.usecase.GetCartItemsCountUseCase
 import com.sraccelerator.easyorder.domain.usecase.GetProductsByCategoryUseCase
 import com.sraccelerator.easyorder.presentation.navigation.AppRoutes
 import com.sraccelerator.easyorder.presentation.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 internal class ProductListViewModel @Inject constructor(
     private val getProductsByCategoryUseCase: GetProductsByCategoryUseCase,
+    private val getCartItemsCountUseCase: GetCartItemsCountUseCase,
+    private val addProductToCartUseCase: AddProductToCartUseCase,
     private val navigator: Navigator,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
@@ -36,8 +41,9 @@ internal class ProductListViewModel @Inject constructor(
         when (event) {
             is ProductListUiEvent.OnRetryClick -> loadProducts()
             is ProductListUiEvent.OnAddToCartClick -> {
-
+                addProductToCartUseCase(event.product)
             }
+
             is ProductListUiEvent.OnBackClick -> {
                 viewModelScope.launch {
                     navigator.navigateBack()
@@ -48,26 +54,27 @@ internal class ProductListViewModel @Inject constructor(
 
     private fun loadProducts() {
         viewModelScope.launch {
-            getProductsByCategoryUseCase(categoryId).collect { result ->
-                handleLoadProductsResult(result)
+            combine(
+                getProductsByCategoryUseCase(categoryId),
+                getCartItemsCountUseCase()
+            ) { productsState, cartCount ->
+                handleLoadProductsResult(productsState, cartCount)
+            }.collect { newState ->
+                _uiState.value = newState
             }
         }
     }
 
-    private fun handleLoadProductsResult(result: DataState<List<Product>>) {
-        when (result) {
-            is DataState.Loading -> {
-                _uiState.value = ProductListUiState.Loading
-            }
+    private fun handleLoadProductsResult(productsState: DataState<List<Product>>, cartCount: Int): ProductListUiState {
+        return when (productsState) {
+            is DataState.Loading -> ProductListUiState.Loading
+
             is DataState.Success -> {
-                val products = result.data
-                _uiState.value = ProductListUiState.Success(categoryName, products)
+                val products = productsState.data
+                ProductListUiState.Success(categoryName, products, cartCount)
             }
-            is DataState.Error -> {
-                _uiState.value = ProductListUiState.Error(
-                    result.throwable.message ?: "Failed to load products"
-                )
-            }
+
+            is DataState.Error -> ProductListUiState.Error(productsState.throwable.message ?: "Failed to load products")
         }
     }
 }
