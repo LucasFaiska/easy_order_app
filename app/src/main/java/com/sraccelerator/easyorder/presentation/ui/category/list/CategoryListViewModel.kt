@@ -2,6 +2,7 @@ package com.sraccelerator.easyorder.presentation.ui.category.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sraccelerator.easyorder.core.config.AppConfig
 import com.sraccelerator.easyorder.data.DataState
 import com.sraccelerator.easyorder.data.model.Category
 import com.sraccelerator.easyorder.domain.usecase.GetCartItemsCountUseCase
@@ -17,10 +18,11 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-internal class CategoryListViewModel @Inject constructor(
+class CategoryListViewModel @Inject constructor(
     private val getCategoriesUseCase: GetCategoriesUseCase,
     private val getCartItemsCountUseCase: GetCartItemsCountUseCase,
-    private val navigator: Navigator
+    private val navigator: Navigator,
+    private val appConfig: AppConfig
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<CategoryListUiState>(CategoryListUiState.Loading)
@@ -33,7 +35,7 @@ internal class CategoryListViewModel @Inject constructor(
     private fun observeScreenData() {
         viewModelScope.launch {
             combine(
-                getCategoriesUseCase(1),
+                getCategoriesUseCase(appConfig.restaurantId),
                 getCartItemsCountUseCase()
             ) { categoriesState, cartCount ->
                 mapToUiState(categoriesState, cartCount)

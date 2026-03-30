@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Paleta Pizzaria -->
+    <color name="primary">#F5F1E9</color> <!-- Laranja -->
+    <color name="colorPrimary">#F5F1E9</color>
+    <color name="primary_dark">#F5F1E9</color>
+    <color name="teal_200">#FFCCBC</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+
+    <!-- Cores que o tema base espera -->
+    <color name="purple_500">#F5F1E9</color>
+    <color name="purple_700">#F5F1E9</color>
+</resources>

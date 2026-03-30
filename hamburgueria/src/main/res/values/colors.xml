@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Paleta Hamburgueria -->
+    <color name="colorPrimary">#ECEFF1</color> <!-- Vermelho -->
+    <color name="primary_dark">#ECEFF1</color>
+    <color name="teal_200">#FFEB3B</color> <!-- Amarelo -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+
+    <!-- Cores que o tema base espera -->
+    <color name="purple_500">#ECEFF1</color>
+    <color name="purple_700">#ECEFF1</color>
+</resources>
