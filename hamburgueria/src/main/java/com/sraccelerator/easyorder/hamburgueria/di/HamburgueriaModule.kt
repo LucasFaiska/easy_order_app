@@ -14,5 +14,5 @@ abstract class HamburgueriaModule {
 
     @Binds
     @Singleton
-    abstract fun bindAppConfig(pizzariaConfig: HamburgueriaConfig): AppConfig
+    abstract fun bindAppConfig(hamburgueriaConfig: HamburgueriaConfig): AppConfig
 }
