@@ -16,7 +16,8 @@
 
         <activity
             android:name="com.sraccelerator.easyorder.MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.App.Starting"> <!-- TEMA DA SPLASH AQUI -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
