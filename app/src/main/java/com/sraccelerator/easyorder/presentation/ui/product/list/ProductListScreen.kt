@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sraccelerator.easyorder.R
+import com.sraccelerator.easyorder.core.config.MockAppConfig
 import com.sraccelerator.easyorder.data.model.Product
 import com.sraccelerator.easyorder.presentation.component.EasyOrderBackButton
 import com.sraccelerator.easyorder.presentation.component.EasyOrderError
@@ -101,7 +102,7 @@ private fun ProductSuccessContent(
 @Preview(showBackground = true, name = "Product List - Loading")
 @Composable
 fun ProductListScreenLoadingPreview() {
-    EasyOrderTheme {
+    EasyOrderTheme(config = MockAppConfig) {
         ProductListScreen(
             state = ProductListUiState.Loading,
             onEvent = {}
@@ -112,7 +113,7 @@ fun ProductListScreenLoadingPreview() {
 @Preview(showBackground = true, name = "Product List - Success")
 @Composable
 fun ProductListScreenSuccessPreview() {
-    EasyOrderTheme {
+    EasyOrderTheme(config = MockAppConfig) {
         ProductListScreen(
             state = ProductListUiState.Success(
                 categoryName = "Signature Burgers",
@@ -166,7 +167,7 @@ fun ProductListScreenSuccessPreview() {
 @Preview(showBackground = true, name = "Product List - Error")
 @Composable
 fun ProductListScreenErrorPreview() {
-    EasyOrderTheme {
+    EasyOrderTheme(config = MockAppConfig) {
         ProductListScreen(
             state = ProductListUiState.Error(
                 message = "Failed to load products. Please try again."

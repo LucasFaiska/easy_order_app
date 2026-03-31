@@ -1,7 +1,6 @@
 package com.sraccelerator.easyorder.presentation.component
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -22,7 +21,6 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.sraccelerator.easyorder.R
 import com.sraccelerator.easyorder.data.model.Category
-import com.sraccelerator.easyorder.presentation.theme.*
 
 @Composable
 fun EasyOrderCategoryCard(
@@ -36,7 +34,7 @@ fun EasyOrderCategoryCard(
             .fillMaxWidth()
             .height(180.dp),
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = SurfaceVariant)
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             CategoryBackground(category)
@@ -104,13 +102,13 @@ private fun CategoryInfo(category: Category, modifier: Modifier = Modifier) {
 private fun CategoryActionButton() {
     Surface(
         shape = CircleShape,
-        color = Primary,
+        color = MaterialTheme.colorScheme.primary,
         modifier = Modifier.size(44.dp)
     ) {
         Icon(
             imageVector = Icons.Default.ArrowForward,
             contentDescription = stringResource(R.string.cd_navigate_to_category),
-            tint = OnPrimary,
+            tint = MaterialTheme.colorScheme.onPrimary,
             modifier = Modifier.padding(10.dp)
         )
     }
