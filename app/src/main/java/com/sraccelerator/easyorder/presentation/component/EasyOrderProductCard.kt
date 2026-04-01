@@ -15,6 +15,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,13 +32,6 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.sraccelerator.easyorder.R
 import com.sraccelerator.easyorder.data.model.Product
-import com.sraccelerator.easyorder.presentation.theme.OnBackground
-import com.sraccelerator.easyorder.presentation.theme.OnPrimary
-import com.sraccelerator.easyorder.presentation.theme.OnPrimaryContainer
-import com.sraccelerator.easyorder.presentation.theme.OnSurfaceVariant
-import com.sraccelerator.easyorder.presentation.theme.Outline
-import com.sraccelerator.easyorder.presentation.theme.Primary
-import com.sraccelerator.easyorder.presentation.theme.SurfaceVariant
 
 @Composable
 fun EasyOrderProductCard(
@@ -48,7 +42,7 @@ fun EasyOrderProductCard(
     Card(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = SurfaceVariant)
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
     ) {
         Box(modifier = Modifier.fillMaxWidth()) {
             Column {
@@ -85,7 +79,7 @@ private fun ProductInfo(product: Product, onAddClick: () -> Unit) {
         Text(
             text = product.name,
             style = TextStyle(
-                color = OnBackground,
+                color = MaterialTheme.colorScheme.onBackground,
                 fontWeight = FontWeight.Bold,
                 fontSize = 14.sp
             ),
@@ -96,7 +90,7 @@ private fun ProductInfo(product: Product, onAddClick: () -> Unit) {
         Text(
             text = "${product.preparationTime}${stringResource(R.string.product_label_prep_time)}",
             style = TextStyle(
-                color = OnSurfaceVariant,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 fontSize = 11.sp
             ),
             modifier = Modifier.padding(vertical = 4.dp)
@@ -125,7 +119,7 @@ private fun PriceSection(
             Text(
                 text = "${stringResource(R.string.product_currency_symbol)} $price",
                 style = TextStyle(
-                    color = Primary,
+                    color = MaterialTheme.colorScheme.primary,
                     fontWeight = FontWeight.Black,
                     fontSize = 15.sp
                 )
@@ -134,7 +128,7 @@ private fun PriceSection(
                 Text(
                     text = "${stringResource(R.string.product_currency_symbol)} $it",
                     style = TextStyle(
-                        color = Outline,
+                        color = MaterialTheme.colorScheme.outline,
                         fontSize = 11.sp,
                         textDecoration = TextDecoration.LineThrough
                     )
@@ -151,13 +145,13 @@ private fun AddActionButton(onClick: () -> Unit) {
     Surface(
         onClick = onClick,
         shape = CircleShape,
-        color = Primary,
+        color = MaterialTheme.colorScheme.primary,
         modifier = Modifier.size(32.dp)
     ) {
         Icon(
             imageVector = Icons.Default.Add,
             contentDescription = stringResource(R.string.product_cd_add_button),
-            tint = OnPrimary,
+            tint = MaterialTheme.colorScheme.onPrimary,
             modifier = Modifier.padding(6.dp)
         )
     }
@@ -166,13 +160,13 @@ private fun AddActionButton(onClick: () -> Unit) {
 @Composable
 private fun PromotionBadge(modifier: Modifier = Modifier) {
     Surface(
-        color = OnPrimaryContainer,
+        color = MaterialTheme.colorScheme.primaryContainer,
         shape = RoundedCornerShape(bottomEnd = 12.dp),
         modifier = modifier
     ) {
         Text(
             text = stringResource(R.string.product_label_promotion),
-            color = OnPrimary,
+            color = MaterialTheme.colorScheme.onPrimaryContainer,
             style = TextStyle(
                 fontSize = 10.sp,
                 fontWeight = FontWeight.Bold

@@ -15,6 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sraccelerator.easyorder.R
+import com.sraccelerator.easyorder.core.config.MockAppConfig
 import com.sraccelerator.easyorder.data.model.Category
 import com.sraccelerator.easyorder.presentation.component.EasyOrderCategoryCard
 import com.sraccelerator.easyorder.presentation.component.EasyOrderError
@@ -22,6 +23,7 @@ import com.sraccelerator.easyorder.presentation.component.EasyOrderHeader
 import com.sraccelerator.easyorder.presentation.component.EasyOrderLoading
 import com.sraccelerator.easyorder.presentation.component.EasyOrderScaffold
 import com.sraccelerator.easyorder.presentation.component.EasyOrderTopBar
+import com.sraccelerator.easyorder.presentation.theme.EasyOrderTheme
 
 @Composable
 fun CategoryListScreen(
@@ -107,45 +109,51 @@ private fun CategorySuccessContent(
 @Preview(showBackground = true, name = "Success State")
 @Composable
 fun EasyOrderCategoriesScreenPreview() {
-    val categories = listOf(
-        Category(
-            id = 21,
-            name = "Traditional Pizzas",
-            imageUrl = "https://loremflickr.com/320/240/pizza?lock=21",
-            displayOrder = 1,
-            isActive = true
-        ),
-        Category(
-            id = 22,
-            name = "Artisanal Pasta",
-            imageUrl = "https://loremflickr.com/320/240/pasta?lock=22",
-            displayOrder = 2,
-            isActive = true
+    EasyOrderTheme(config = MockAppConfig) {
+        val categories = listOf(
+            Category(
+                id = 21,
+                name = "Traditional Pizzas",
+                imageUrl = "https://loremflickr.com/320/240/pizza?lock=21",
+                displayOrder = 1,
+                isActive = true
+            ),
+            Category(
+                id = 22,
+                name = "Artisanal Pasta",
+                imageUrl = "https://loremflickr.com/320/240/pasta?lock=22",
+                displayOrder = 2,
+                isActive = true
+            )
         )
-    )
 
-    CategoryListScreen(
-        state = CategoryListUiState.Success(categories),
-        onEvent = {}
-    )
+        CategoryListScreen(
+            state = CategoryListUiState.Success(categories),
+            onEvent = {}
+        )
+    }
 }
 
 @Preview(showBackground = true, name = "Loading State")
 @Composable
 fun EasyOrderCategoriesLoadingPreview() {
-    CategoryListScreen(
-        state = CategoryListUiState.Loading,
-        onEvent = {}
-    )
+    EasyOrderTheme(config = MockAppConfig) {
+        CategoryListScreen(
+            state = CategoryListUiState.Loading,
+            onEvent = {}
+        )
+    }
 }
 
 @Preview(showBackground = true, name = "Error State")
 @Composable
 fun EasyOrderCategoriesErrorPreview() {
-    CategoryListScreen(
-        state = CategoryListUiState.Error(
-            message = "Connection failed. Please check your internet."
-        ),
-        onEvent = {}
-    )
+    EasyOrderTheme(config = MockAppConfig) {
+        CategoryListScreen(
+            state = CategoryListUiState.Error(
+                message = "Connection failed. Please check your internet."
+            ),
+            onEvent = {}
+        )
+    }
 }

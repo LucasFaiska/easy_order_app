@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -17,8 +18,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.sraccelerator.easyorder.presentation.theme.OnError
-import com.sraccelerator.easyorder.presentation.theme.OnPrimary
 
 @Composable
 fun EasyOrderError(
@@ -35,7 +34,7 @@ fun EasyOrderError(
         Text(
             text = message,
             style = TextStyle(
-                color = OnError,
+                color = MaterialTheme.colorScheme.onError,
                 fontSize = 22.sp,
                 fontWeight = FontWeight.Medium,
                 textAlign = TextAlign.Center
@@ -53,7 +52,7 @@ fun EasyOrderError(
             Text(
                 text = stringResource(R.string.error_retry_button),
                 style = TextStyle(
-                    color = OnPrimary,
+                    color = MaterialTheme.colorScheme.onPrimary,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Medium
                 )

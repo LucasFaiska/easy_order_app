@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ProductListViewModel @Inject constructor(
+internal class ProductListViewModel @Inject constructor(
     private val getProductsByCategoryUseCase: GetProductsByCategoryUseCase,
     private val getCartItemsCountUseCase: GetCartItemsCountUseCase,
     private val addProductToCartUseCase: AddProductToCartUseCase,

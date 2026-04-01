@@ -15,6 +15,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -27,6 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sraccelerator.easyorder.R
+import com.sraccelerator.easyorder.core.config.MockAppConfig
 import com.sraccelerator.easyorder.data.model.CartItem
 import com.sraccelerator.easyorder.data.model.Product
 import com.sraccelerator.easyorder.presentation.component.EasyOrderBackButton
@@ -37,9 +39,6 @@ import com.sraccelerator.easyorder.presentation.component.EasyOrderLoading
 import com.sraccelerator.easyorder.presentation.component.EasyOrderScaffold
 import com.sraccelerator.easyorder.presentation.component.EasyOrderTopBar
 import com.sraccelerator.easyorder.presentation.theme.EasyOrderTheme
-import com.sraccelerator.easyorder.presentation.theme.OnBackground
-import com.sraccelerator.easyorder.presentation.theme.OnPrimary
-import com.sraccelerator.easyorder.presentation.theme.Primary
 import kotlinx.coroutines.flow.SharedFlow
 
 @Composable
@@ -75,7 +74,10 @@ fun CartScreen(
                         modifier = Modifier.fillMaxSize(),
                         contentAlignment = Alignment.Center
                     ) {
-                        Text(text = stringResource(R.string.cart_empty_message), color = OnBackground)
+                        Text(
+                            text = stringResource(R.string.cart_empty_message),
+                            color = MaterialTheme.colorScheme.onBackground
+                        )
                     }
                 }
 
@@ -133,13 +135,15 @@ private fun CartBottomSection(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = stringResource(R.string.cart_total_label), fontSize = 18.sp, color = OnBackground
+                text = stringResource(R.string.cart_total_label),
+                fontSize = 18.sp,
+                color = MaterialTheme.colorScheme.onBackground
             )
             Text(
                 text = "${stringResource(R.string.product_currency_symbol)} $totalPrice",
                 fontSize = 22.sp,
                 fontWeight = FontWeight.Black,
-                color = OnBackground
+                color = MaterialTheme.colorScheme.onBackground
             )
         }
         Button(
@@ -149,7 +153,8 @@ private fun CartBottomSection(
                 .padding(top = 24.dp)
                 .height(56.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = Primary, contentColor = OnPrimary
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary
             )
         ) {
             Text(
@@ -162,7 +167,7 @@ private fun CartBottomSection(
 @Preview(showBackground = true, name = "Success State")
 @Composable
 private fun CartScreenSuccessPreview() {
-    EasyOrderTheme {
+    EasyOrderTheme(config = MockAppConfig) {
         androidx.compose.material3.Surface {
             val mockProduct = Product(
                 id = 101,
@@ -197,7 +202,7 @@ private fun CartScreenSuccessPreview() {
 @Preview(showBackground = true, name = "Empty State")
 @Composable
 private fun CartScreenEmptyPreview() {
-    EasyOrderTheme {
+    EasyOrderTheme(config = MockAppConfig) {
         androidx.compose.material3.Surface {
             CartScreen(
                 state = CartUiState.Empty, onEvent = {})
@@ -208,7 +213,7 @@ private fun CartScreenEmptyPreview() {
 @Preview(showBackground = true, name = "Loading State")
 @Composable
 private fun CartScreenLoadingPreview() {
-    EasyOrderTheme {
+    EasyOrderTheme(config = MockAppConfig) {
         androidx.compose.material3.Surface {
             CartScreen(
                 state = CartUiState.Loading, onEvent = {})
@@ -219,7 +224,7 @@ private fun CartScreenLoadingPreview() {
 @Preview(showBackground = true, name = "Error State")
 @Composable
 private fun CartScreenErrorPreview() {
-    EasyOrderTheme {
+    EasyOrderTheme(config = MockAppConfig) {
         androidx.compose.material3.Surface {
             CartScreen(
                 state = CartUiState.Error("Connection timeout. Please try again."), onEvent = {})
