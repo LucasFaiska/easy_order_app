@@ -2,6 +2,8 @@ package com.sraccelerator.easyorder.presentation.ui.category.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sraccelerator.easyorder.analytics.AnalyticsEvent
+import com.sraccelerator.easyorder.analytics.AnalyticsHandler
 import com.sraccelerator.easyorder.core.config.AppConfig
 import com.sraccelerator.easyorder.data.DataState
 import com.sraccelerator.easyorder.data.model.Category
@@ -22,6 +24,7 @@ class CategoryListViewModel @Inject constructor(
     private val getCategoriesUseCase: GetCategoriesUseCase,
     private val getCartItemsCountUseCase: GetCartItemsCountUseCase,
     private val navigator: Navigator,
+    private val analyticsHandler: AnalyticsHandler,
     private val appConfig: AppConfig
 ) : ViewModel() {
 
@@ -66,6 +69,10 @@ class CategoryListViewModel @Inject constructor(
     fun onEvent(event: CategoryListUiEvent) {
         when (event) {
             is CategoryListUiEvent.OnCategoryListClick -> {
+                analyticsHandler.logEvent(
+                    event = AnalyticsEvent.CategoryClicked(event.categoryId, event.categoryName)
+                )
+
                 viewModelScope.launch {
                     navigator.navigateTo(ProductList(event.categoryId, event.categoryName))
                 }

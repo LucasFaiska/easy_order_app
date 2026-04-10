@@ -39,6 +39,7 @@ android {
 
 dependencies {
     implementation(project(":app"))
+    implementation(project(":analytics"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity.compose)
