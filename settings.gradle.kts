@@ -23,3 +23,4 @@ rootProject.name = "Easy Order"
 include(":app")
 include(":pizzaria")
 include(":hamburgueria")
+include(":analytics")

@@ -31,6 +31,8 @@ android {
 }
 
 dependencies {
+    implementation(project(":analytics"))
+
     implementation(libs.androidx.core.ktx)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.bundles.compose)
