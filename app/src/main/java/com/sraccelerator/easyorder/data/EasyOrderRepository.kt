@@ -1,6 +1,8 @@
 package com.sraccelerator.easyorder.data
 
 import com.sraccelerator.easyorder.data.di.IoDispatcher
+import com.sraccelerator.easyorder.data.local.CategoryLocalDataSource
+import com.sraccelerator.easyorder.data.local.ProductLocalDataSource
 import com.sraccelerator.easyorder.data.model.Category
 import com.sraccelerator.easyorder.data.model.Product
 import com.sraccelerator.easyorder.data.remote.RemoteDataSource
@@ -18,22 +20,29 @@ interface EasyOrderRepository {
 }
 
 internal class EasyOrderRepositoryImpl @Inject constructor(
-    private val remoteDataSource: RemoteDataSource, @param:IoDispatcher private val dispatcher: CoroutineDispatcher
+    private val remoteDataSource: RemoteDataSource,
+    private val categoryLocal: CategoryLocalDataSource,
+    private val productLocal: ProductLocalDataSource,
+    @param:IoDispatcher private val dispatcher: CoroutineDispatcher
 ) : EasyOrderRepository {
 
     override fun getCategories(restaurantId: Int): Flow<DataState<List<Category>>> = flow {
         emit(DataState.Loading)
         when (val response = remoteDataSource.getCategories(restaurantId)) {
             is EasyOrderApiResponse.Success -> {
-                emit(DataState.Success(response.body.map { it.toModel() }))
+                val categories = response.body.map { it.toModel() }
+                categoryLocal.save(categories)
+                emit(DataState.Success(categories))
             }
 
-            is EasyOrderApiResponse.Error -> {
-                emit(DataState.Error(Exception("API Error ${response.code}: ${response.message}")))
-            }
-
-            is EasyOrderApiResponse.Exception -> {
-                emit(DataState.Error(response.e))
+            else -> {
+                val localCategories = categoryLocal.getAll()
+                if (localCategories.isNotEmpty()) {
+                    emit(DataState.Success(localCategories))
+                } else {
+                    val error = if (response is EasyOrderApiResponse.Exception) response.e else Exception("API Error")
+                    emit(DataState.Error(error))
+                }
             }
         }
     }.flowOn(dispatcher)
@@ -42,15 +51,19 @@ internal class EasyOrderRepositoryImpl @Inject constructor(
         emit(DataState.Loading)
         when (val response = remoteDataSource.getProductsByCategory(categoryId)) {
             is EasyOrderApiResponse.Success -> {
-                emit(DataState.Success(response.body.map { it.toModel() }))
+                val products = response.body.map { it.toModel() }
+                productLocal.save(products)
+                emit(DataState.Success(products))
             }
 
-            is EasyOrderApiResponse.Error -> {
-                emit(DataState.Error(Exception("API Error ${response.code}: ${response.message}")))
-            }
-
-            is EasyOrderApiResponse.Exception -> {
-                emit(DataState.Error(response.e))
+            else -> {
+                val localProducts = productLocal.getByCategoryId(categoryId)
+                if (localProducts.isNotEmpty()) {
+                    emit(DataState.Success(localProducts))
+                } else {
+                    val error = if (response is EasyOrderApiResponse.Exception) response.e else Exception("API Error")
+                    emit(DataState.Error(error))
+                }
             }
         }
     }.flowOn(dispatcher)
