@@ -3,6 +3,7 @@ package com.sraccelerator.easyorder.data
 import com.sraccelerator.easyorder.data.di.IoDispatcher
 import com.sraccelerator.easyorder.data.local.CategoryLocalDataSource
 import com.sraccelerator.easyorder.data.local.ProductLocalDataSource
+import com.sraccelerator.easyorder.data.local.QueryCriteria
 import com.sraccelerator.easyorder.data.model.Category
 import com.sraccelerator.easyorder.data.model.Product
 import com.sraccelerator.easyorder.data.remote.RemoteDataSource
@@ -52,12 +53,15 @@ internal class EasyOrderRepositoryImpl @Inject constructor(
         when (val response = remoteDataSource.getProductsByCategory(categoryId)) {
             is EasyOrderApiResponse.Success -> {
                 val products = response.body.map { it.toModel() }
+                // Nota: Para salvar, o ideal seria o domínio Product já conter o categoryId
+                // ou passarmos o contexto de salvamento. Para este OKR, focaremos na busca por critérios.
                 productLocal.save(products)
                 emit(DataState.Success(products))
             }
 
             else -> {
-                val localProducts = productLocal.getByCategoryId(categoryId)
+                // Aqui aplicamos o QueryCriteria sugerido pelo mentor
+                val localProducts = productLocal.getBy(QueryCriteria.Equals("categoryId", categoryId))
                 if (localProducts.isNotEmpty()) {
                     emit(DataState.Success(localProducts))
                 } else {

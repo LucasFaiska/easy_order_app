@@ -18,6 +18,11 @@ class RoomCategoryLocalDataSource @Inject constructor(
         return dao.getCategories().map { it.toModel() }
     }
 
+    override suspend fun getBy(vararg criteria: QueryCriteria): List<Category> {
+        val query = RoomQueryBuilder.build("categories", criteria)
+        return dao.getCategoriesRaw(query).map { it.toModel() }
+    }
+
     override suspend fun clearAll() {
         dao.clearCategories()
     }
@@ -28,16 +33,17 @@ class RoomProductLocalDataSource @Inject constructor(
 ) : ProductLocalDataSource {
 
     override suspend fun save(items: List<Product>) {
-        // Nota: Para salvar produtos, precisaríamos saber a qual categoria eles pertencem.
-        // Em um fluxo real, o repository passaria essa info.
+        // Nota: Em uma implementação completa, o mapper lidaria com a conversão
+        // incluindo os IDs necessários para o vínculo no banco.
     }
 
     override suspend fun getAll(): List<Product> {
         return emptyList()
     }
 
-    override suspend fun getByCategoryId(categoryId: Int): List<Product> {
-        return dao.getProductsByCategory(categoryId).map { it.toModel() }
+    override suspend fun getBy(vararg criteria: QueryCriteria): List<Product> {
+        val query = RoomQueryBuilder.build("products", criteria)
+        return dao.getProductsRaw(query).map { it.toModel() }
     }
 
     override suspend fun clearAll() {
