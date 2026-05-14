@@ -1,10 +1,11 @@
 package com.sraccelerator.easyorder.hamburgueria.di
 
 import com.sraccelerator.easyorder.core.config.AppConfig
-import com.sraccelerator.easyorder.data.local.CategoryLocalDataSource
-import com.sraccelerator.easyorder.data.local.ProductLocalDataSource
+import com.sraccelerator.easyorder.data.local.LocalDataSource
 import com.sraccelerator.easyorder.data.local.RoomCategoryLocalDataSource
 import com.sraccelerator.easyorder.data.local.RoomProductLocalDataSource
+import com.sraccelerator.easyorder.data.model.Category
+import com.sraccelerator.easyorder.data.model.Product
 import com.sraccelerator.easyorder.hamburgueria.core.HamburgueriaConfig
 import dagger.Binds
 import dagger.Module
@@ -24,11 +25,11 @@ abstract class HamburgueriaModule {
     @Singleton
     abstract fun bindCategoryLocalDataSource(
         roomCategoryLocalDataSource: RoomCategoryLocalDataSource
-    ): CategoryLocalDataSource
+    ): LocalDataSource<Category>
 
     @Binds
     @Singleton
     abstract fun bindProductLocalDataSource(
         roomProductLocalDataSource: RoomProductLocalDataSource
-    ): ProductLocalDataSource
+    ): LocalDataSource<Product>
 }

@@ -6,7 +6,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class InMemoryCategoryLocalDataSource @Inject constructor() : CategoryLocalDataSource {
+class InMemoryCategoryLocalDataSource @Inject constructor() : LocalDataSource<Category> {
     private var cache: List<Category> = emptyList()
 
     override suspend fun save(items: List<Category>) { cache = items }
@@ -25,7 +25,7 @@ class InMemoryCategoryLocalDataSource @Inject constructor() : CategoryLocalDataS
 }
 
 @Singleton
-class InMemoryProductLocalDataSource @Inject constructor() : ProductLocalDataSource {
+class InMemoryProductLocalDataSource @Inject constructor() : LocalDataSource<Product> {
     private var cache: List<Product> = emptyList()
 
     override suspend fun save(items: List<Product>) { cache = items }

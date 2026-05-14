@@ -1,8 +1,7 @@
 package com.sraccelerator.easyorder.data
 
 import com.sraccelerator.easyorder.data.di.IoDispatcher
-import com.sraccelerator.easyorder.data.local.CategoryLocalDataSource
-import com.sraccelerator.easyorder.data.local.ProductLocalDataSource
+import com.sraccelerator.easyorder.data.local.LocalDataSource
 import com.sraccelerator.easyorder.data.local.QueryCriteria
 import com.sraccelerator.easyorder.data.model.Category
 import com.sraccelerator.easyorder.data.model.Product
@@ -22,8 +21,8 @@ interface EasyOrderRepository {
 
 internal class EasyOrderRepositoryImpl @Inject constructor(
     private val remoteDataSource: RemoteDataSource,
-    private val categoryLocal: CategoryLocalDataSource,
-    private val productLocal: ProductLocalDataSource,
+    private val categoryLocal: LocalDataSource<Category>,
+    private val productLocal: LocalDataSource<Product>,
     @param:IoDispatcher private val dispatcher: CoroutineDispatcher
 ) : EasyOrderRepository {
 
