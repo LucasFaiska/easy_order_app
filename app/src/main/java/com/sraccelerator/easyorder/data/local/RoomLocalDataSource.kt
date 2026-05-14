@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 class RoomCategoryLocalDataSource @Inject constructor(
     private val dao: EasyOrderDao
-) : CategoryLocalDataSource {
+) : LocalDataSource<Category> {
 
     override suspend fun save(items: List<Category>) {
         dao.insertCategories(items.map { it.toEntity() })
@@ -30,7 +30,7 @@ class RoomCategoryLocalDataSource @Inject constructor(
 
 class RoomProductLocalDataSource @Inject constructor(
     private val dao: EasyOrderDao
-) : ProductLocalDataSource {
+) : LocalDataSource<Product> {
 
     override suspend fun save(items: List<Product>) {
         // Nota: Em uma implementação completa, o mapper lidaria com a conversão

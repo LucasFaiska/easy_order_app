@@ -1,8 +1,5 @@
 package com.sraccelerator.easyorder.data.local
 
-import com.sraccelerator.easyorder.data.model.Category
-import com.sraccelerator.easyorder.data.model.Product
-
 sealed class QueryCriteria {
     data class Equals(val field: String, val value: Any) : QueryCriteria()
     data class GreaterThan(val field: String, val value: Number) : QueryCriteria()
@@ -15,6 +12,3 @@ interface LocalDataSource<T> {
     suspend fun getBy(vararg criteria: QueryCriteria): List<T>
     suspend fun clearAll()
 }
-
-interface CategoryLocalDataSource : LocalDataSource<Category>
-interface ProductLocalDataSource : LocalDataSource<Product>
