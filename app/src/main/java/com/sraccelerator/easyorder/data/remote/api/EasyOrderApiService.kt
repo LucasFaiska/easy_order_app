@@ -19,6 +19,8 @@ interface EasyOrderApiService {
         @Path("categoryId") categoryId: Int
     ): EasyOrderApiResponse<List<ProductDTO>>
 
-    @GET("api/v1/config/features.json")
-    suspend fun getFeatureFlags(): EasyOrderApiResponse<FeatureFlagsResponse>
+    @GET("api/v1/{restaurantId}/feature-flags/index.json")
+    suspend fun getFeatureFlags(
+        @Path("restaurantId") restaurantId: Int
+    ): EasyOrderApiResponse<FeatureFlagsResponse>
 }

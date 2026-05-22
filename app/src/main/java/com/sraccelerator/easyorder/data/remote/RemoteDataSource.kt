@@ -14,7 +14,7 @@ internal interface RemoteDataSource {
         categoryId: Int
     ): EasyOrderApiResponse<List<ProductDTO>>
 
-    suspend fun getFeatureFlags(): EasyOrderApiResponse<FeatureFlagsResponse>
+    suspend fun getFeatureFlags(restaurantId: Int): EasyOrderApiResponse<FeatureFlagsResponse>
 }
 
 internal class RemoteDataSourceImpl @Inject constructor(
@@ -31,7 +31,7 @@ internal class RemoteDataSourceImpl @Inject constructor(
         return apiService.getProductsByCategory(categoryId)
     }
 
-    override suspend fun getFeatureFlags(): EasyOrderApiResponse<FeatureFlagsResponse> {
-        return apiService.getFeatureFlags()
+    override suspend fun getFeatureFlags(restaurantId: Int): EasyOrderApiResponse<FeatureFlagsResponse> {
+        return apiService.getFeatureFlags(restaurantId)
     }
 }

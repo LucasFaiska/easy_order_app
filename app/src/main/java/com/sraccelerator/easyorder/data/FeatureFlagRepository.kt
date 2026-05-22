@@ -8,7 +8,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 interface FeatureFlagRepository {
-    suspend fun fetchFeatureFlags(): Map<String, FeatureConfigDTO>
+    suspend fun fetchFeatureFlags(restaurantId: Int): Map<String, FeatureConfigDTO>
     fun getCachedFlags(): Map<String, FeatureConfigDTO>
 }
 
@@ -19,8 +19,8 @@ internal class FeatureFlagRepositoryImpl @Inject constructor(
 
     private var cachedFlags: Map<String, FeatureConfigDTO> = emptyMap()
 
-    override suspend fun fetchFeatureFlags(): Map<String, FeatureConfigDTO> {
-        return when (val response = remoteDataSource.getFeatureFlags()) {
+    override suspend fun fetchFeatureFlags(restaurantId: Int): Map<String, FeatureConfigDTO> {
+        return when (val response = remoteDataSource.getFeatureFlags(restaurantId)) {
             is EasyOrderApiResponse.Success<FeatureFlagsResponse> -> {
                 cachedFlags = response.body.features
                 cachedFlags
