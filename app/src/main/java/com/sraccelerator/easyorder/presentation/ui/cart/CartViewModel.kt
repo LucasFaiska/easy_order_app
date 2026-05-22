@@ -1,12 +1,12 @@
 package com.sraccelerator.easyorder.presentation.ui.cart
 
-import com.sraccelerator.easyorder.R
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sraccelerator.easyorder.domain.usecase.AddProductToCartUseCase
 import com.sraccelerator.easyorder.domain.usecase.ClearCartUseCase
 import com.sraccelerator.easyorder.domain.usecase.GetCartUseCase
 import com.sraccelerator.easyorder.domain.usecase.RemoveProductFromCartUseCase
+import com.sraccelerator.easyorder.presentation.navigation.AppRoutes
 import com.sraccelerator.easyorder.presentation.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -66,9 +66,7 @@ class CartViewModel @Inject constructor(
 
     private fun performCheckout() {
         viewModelScope.launch {
-            _toastEvent.emit(R.string.toast_order_placed)
-            clearCartUseCase()
-            navigator.navigateBack()
+            navigator.navigateTo(AppRoutes.Checkout)
         }
     }
 }

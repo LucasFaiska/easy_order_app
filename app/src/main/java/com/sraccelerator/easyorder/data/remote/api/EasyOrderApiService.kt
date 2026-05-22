@@ -1,6 +1,7 @@
 package com.sraccelerator.easyorder.data.remote.api
 
 import com.sraccelerator.easyorder.data.remote.dto.response.CategoryDTO
+import com.sraccelerator.easyorder.data.remote.dto.response.FeatureFlagsResponse
 import com.sraccelerator.easyorder.data.remote.dto.response.ProductDTO
 import com.sraccelerator.easyorder.data.remote.network.EasyOrderApiResponse
 import retrofit2.http.GET
@@ -17,4 +18,9 @@ interface EasyOrderApiService {
     suspend fun getProductsByCategory(
         @Path("categoryId") categoryId: Int
     ): EasyOrderApiResponse<List<ProductDTO>>
+
+    @GET("api/v1/{restaurantId}/feature-flags/index.json")
+    suspend fun getFeatureFlags(
+        @Path("restaurantId") restaurantId: Int
+    ): EasyOrderApiResponse<FeatureFlagsResponse>
 }

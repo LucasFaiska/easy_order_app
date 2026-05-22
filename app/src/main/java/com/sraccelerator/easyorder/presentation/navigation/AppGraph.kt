@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.sraccelerator.easyorder.presentation.ui.cart.CartRoot
 import com.sraccelerator.easyorder.presentation.ui.category.list.CategoryListRoot
+import com.sraccelerator.easyorder.presentation.ui.checkout.CheckoutRoot
 import com.sraccelerator.easyorder.presentation.ui.product.list.ProductListRoot
 import kotlinx.serialization.Serializable
 
@@ -31,6 +32,10 @@ fun AppGraph(navigator: Navigator, navController: NavHostController) {
         composable<AppRoutes.Cart> {
             CartRoot()
         }
+
+        composable<AppRoutes.Checkout> {
+            CheckoutRoot()
+        }
     }
 }
 
@@ -44,4 +49,7 @@ sealed interface AppRoutes : NavigationRoute {
 
     @Serializable
     data object Cart : AppRoutes
+
+    @Serializable
+    data object Checkout : AppRoutes
 }
