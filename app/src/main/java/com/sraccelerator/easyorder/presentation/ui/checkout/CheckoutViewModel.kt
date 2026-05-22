@@ -3,6 +3,7 @@ package com.sraccelerator.easyorder.presentation.ui.checkout
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sraccelerator.easyorder.core.config.AppConfig
+import com.sraccelerator.easyorder.core.featureflag.FeatureFlagManager
 import com.sraccelerator.easyorder.core.featureflag.FeatureFlagProvider
 import com.sraccelerator.easyorder.core.featureflag.FeatureKey
 import com.sraccelerator.easyorder.data.FeatureFlagRepository
@@ -18,7 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CheckoutViewModel @Inject constructor(
     private val featureFlagProvider: FeatureFlagProvider,
-    private val featureFlagRepository: FeatureFlagRepository,
+    private val featureFlagManager: FeatureFlagManager,
     private val getCartUseCase: GetCartUseCase,
     private val navigator: Navigator,
     private val appConfig: AppConfig
@@ -34,8 +35,8 @@ class CheckoutViewModel @Inject constructor(
     private fun loadData(restaurantId: Int) {
         viewModelScope.launch {
             // Buscamos as flags primeiro para garantir que o estado inicial esteja correto
-            featureFlagRepository.fetchFeatureFlags(restaurantId)
-            
+            featureFlagManager.setup()
+
             getCartUseCase().collect { items ->
                 _state.update {
                     it.copy(
